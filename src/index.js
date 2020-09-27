@@ -5,6 +5,7 @@ const App = () => {
   const [value, setValue] = useState(0);
   const [visible, setVisible] = useState(true);
 
+
   if (visible) {
     return (
       <div>
@@ -14,8 +15,7 @@ const App = () => {
         <button onClick={() => setVisible(false)}>
           hide
         </button>
-        <ClassCounter value={value} />
-        <HookCounter value={value} />
+        <Notification />
       </div>
     )
   } else {
@@ -31,6 +31,25 @@ const HookCounter = ({ value }) => {
     return () => console.log('clear')
   }, [value])
   return <p>{value}</p>
+}
+
+const Notification = () => {
+  const [visible, setVisible] = useState(true);
+
+  useEffect(() => {
+    console.log('start timeout')
+    const timerId = setTimeout(() => setVisible(false), 1500)
+    return () => {
+      console.log('clear timer')
+      clearTimeout(timerId);
+    }
+  }, [])
+
+  return (
+    <div>
+      { visible && <p>Hello world!</p>}
+    </div>
+  )
 }
 
 class ClassCounter extends Component {
